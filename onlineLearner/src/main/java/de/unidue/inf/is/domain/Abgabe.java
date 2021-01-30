@@ -29,6 +29,11 @@ public class Abgabe {
 			this.abgabetext = abgabetext;
 		}
 
+		@Override
+		public String toString() {
+			return "Abgabe [aid=" + aid + ", abgabetext=" + abgabetext + "]";
+		}
+
 	
 
 

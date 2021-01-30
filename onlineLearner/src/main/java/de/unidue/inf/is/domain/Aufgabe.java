@@ -52,6 +52,12 @@ public final class Aufgabe {
 			this.beschreibung = beschreibung;
 		}
 
+		@Override
+		public String toString() {
+			return "Aufgabe [kid=" + kid + ", anummer=" + anummer + ", name=" + name + ", beschreibung=" + beschreibung
+					+ "]";
+		}
+
 	
 }
 

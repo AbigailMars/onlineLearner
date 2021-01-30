@@ -78,15 +78,7 @@
 		<url-pattern>/newCourse</url-pattern>
 	</servlet-mapping>
 	
-		<servlet>
-		<servlet-name>insertKurs_servlet</servlet-name>
-		<servlet-class>de.unidue.inf.is.InsertKursServlet</servlet-class>
-	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>insertKurs_servlet</servlet-name>
-		<url-pattern>/insertKurs</url-pattern>
-	</servlet-mapping>	
+		
 	
 		<servlet>
 		<servlet-name>viewCourse_servlet</servlet-name>

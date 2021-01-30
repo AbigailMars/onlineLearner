@@ -41,33 +41,47 @@ body{
 <body>
 	<div id="wrapper">
 		<div id="header">
-		<h1> OnlineLearner Website </h1>
-		</div>
-	   
-		<div id="site">
-	<#if kurs ??>
-      <h3>${kurs.name}</h3></br>
-      <p>Ersteller : ${kurs.ersteller}</P></br>
-      <p>${kurs.beschreibungstext}</P></br>
-       <p>Anz.freier Plaeze : ${kurs.freieplaetze}</P></br>
-   </#if>
-	 <h3> Liste der Aufgaben</h3>
-	 <table class="datatable">
-    <tr>
-        <td>name</td> <td>abgabetext</td><td>note</td>
-    </tr>
-	<#if aufgabeList ?? >
-    <#list aufgabeList as aufgabe>
-    <tr>
-        <td><a href ="newAssignment?anummer=${aufgabe.anummer}">${aufgabe.anummer}${aufgabe.name}</a></td> <td>${aufgabe.abgabetext}</td><td>${aufgabe.note}</td>
-    </tr>
-   </#list>
-   </#if>
-   </table>
-		</div>
+		<h1> Informationen </h1>
 	</div>
+	   
+	<div id="site">
+	<#if kurs ??>
+      <h2>${kurs.name}</h2></br>
+      <h3>Ersteller : ${kurs.ersteller}</h3></br>
+      <p>${kurs.beschreibungstext}</p></br>
+      <h3>Anz.freier Plaeze : ${kurs.freieplaetze}</h3></br>
+   </#if>
+   
+     <button onclick="javascript:window.location.href='hello'">Kurs Loeschen</button>
+      
+	 <h2> Liste der Aufgaben</h2>
 	
 
-   <button onclick="javascript:window.location.href='hello'">Kurs Loeschen</button>
+     <table> <tr>
+        <td>
+	    	<h3>Aufgabe</h3>
+		    <#list aufgabeList as aufgabe>
+				<label><a href ="newAssignment?anummer=${aufgabe.anummer}">${aufgabe.name}</a></label><br>
+		    </#list>
+		</td>
+	    <td>
+		    <h3>Meine Abgabe</h3>
+		    <#list aufgabeList as aufgabe>
+				<label>${aufgabe.abgabetext}</label><br>
+		    </#list>
+	    </td>
+	    <td>
+		    <h3>Bewertungsnote</h3>
+		    <#list aufgabeList as aufgabe>
+				<label>${aufgabe.note}</label><br>
+		    </#list>
+	    </td>
+   </tr></table>
+
+
+    
+    
+
+</div>
 </body>
 </html>

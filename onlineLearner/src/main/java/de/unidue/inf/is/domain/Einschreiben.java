@@ -37,6 +37,11 @@ public class Einschreiben {
 			this.datum = datum;
 		}
 
+		@Override
+		public String toString() {
+			return "Einschreiben [bnummer=" + bnummer + ", kid=" + kid + ", datum=" + datum + "]";
+		}
+
 	
 
 }

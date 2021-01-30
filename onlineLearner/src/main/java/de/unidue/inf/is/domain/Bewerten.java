@@ -47,4 +47,9 @@ public class Bewerten {
 		this.bnummer = bnummer;
 	}
 
+	@Override
+	public String toString() {
+		return "Bewerten [bnummer=" + bnummer + ", aid=" + aid + ", note=" + note + ", kommentar=" + kommentar + "]";
+	}
+
 }

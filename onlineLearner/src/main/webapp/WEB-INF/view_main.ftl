@@ -36,33 +36,62 @@ body{
 .centerBlock{
 	margin:0 auto;
 }
+
+#column{
+    float: left;
+    width: 30%;
+    padding: 5px;
+    margin: 5px;
+}
+
+#row{
+    content: "";
+    clear: both;
+    display: table;
+}
 </style>
 
 <body>
 	<div id="wrapper">
 		<div id="header">
 		<h1> OnlineLearner Website </h1>
-		</div>
-	   
-		<div id="site">
-		<p>
-			Meine Kurse 
-		</p>
-	<#if kursList ??>
-    <#list kursList as kurs>
-    <p><a href = "viewCourse?kid=${kurs.kid}&flag=2">${kurs.name} </a></P><p>${kurs.ersteller}</P><p>${kurs.freieplaetze}</P>
-   </#list>
-   </#if>
-		<p>
-			Verfuergbare Kurse
-		</p>
-	<#if vkursList ??>
-    <#list vkursList as vkurs>
-    <p><a href ="viewCourse?kid=${vkurs.kid}&flag=1"> ${vkurs.name} </a></P><p>${vkurs.ersteller}</P><p>${vkurs.freieplaetze}</P>
-   </#list>
-   </#if>
-		</div>
 	</div>
-	<button onclick="javascript:window.location.href='newCourse'">Kurs Erstellen</button>
+	   
+	<div id="site">
+	 <div id="row">
+	 <h2 style="text-align: left">Meine Kurse</h2>
+	 <#if kursList ??>
+     <#list kursList as kurs>
+     <div id="column">
+         <h3><a href = "viewCourse?kid=${kurs.kid}&flag=2">${kurs.name} </a></h3>
+         <div>
+             <label>Ersteller: ${kurs.ersteller}</label><br>
+             <label>Freie Plaetze: ${kurs.freieplaetze}</label>
+         </div>
+     </div>
+     </#list>
+     </#if>
+     </div>
+
+     <div id="row">
+	 <h2 style="text-align: left">Verfuergbare Kurse</h2>
+	 <#if vkursList ??>
+     <#list vkursList as vkurs>
+     <div id="column">
+        <h3><a href ="viewCourse?kid=${vkurs.kid}&flag=1"> ${vkurs.name} </a></h3>
+        <div>
+            <label>Ersteller: ${vkurs.ersteller}</label><br>
+            <label>Freie Plaetze: ${vkurs.freieplaetze}</label>
+        </div>
+    </div>
+    </#list>
+    </#if>
+    </div>
+
+
+	<button onclick="javascript:window.location.href='/new_course'" style="margin-botton: 50px">Kurs Erstellen</button>
+	
+   </div>
+   
 </body>
 </html>

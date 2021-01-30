@@ -51,5 +51,9 @@ package de.unidue.inf.is.domain;
 		public void setAid(Integer aid) {
 			this.aid = aid;
 		}
+		@Override
+		public String toString() {
+			return "Einreichen [bnummer=" + bnummer + ", kid=" + kid + ", anummer=" + anummer + ", aid=" + aid + "]";
+		}
 
 }

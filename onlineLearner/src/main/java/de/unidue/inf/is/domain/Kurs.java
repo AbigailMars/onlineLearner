@@ -79,6 +79,12 @@ public final class Kurs  {
 	public void setErsteller(String ersteller) {
 		this.ersteller = ersteller;
 	}
+	@Override
+	public String toString() {
+		return "Kurs [kid=" + kid + ", name=" + name + ", beschreibungstext=" + beschreibungstext
+				+ ", einschreibeschluessel=" + einschreibeschluessel + ", freieplaetze=" + freieplaetze + ", ersteller="
+				+ ersteller + "]";
+	}
 
     
 }

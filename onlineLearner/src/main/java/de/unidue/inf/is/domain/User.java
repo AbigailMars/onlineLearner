@@ -38,5 +38,10 @@ public final class User{
 	public void setNummer(Integer nummer) {
 		this.nummer = nummer;
 	}
+
+	@Override
+	public String toString() {
+		return "User [nummer=" + nummer + ", email=" + email + ", name=" + name + "]";
+	}
     
 }

@@ -1,7 +1,5 @@
 package de.unidue.inf.is.domain;
 
-import java.sql.Clob;
-
 public class ViewCourse {
 	 private Integer kid;
 	 private Integer anummer;
@@ -48,6 +46,11 @@ public class ViewCourse {
 	}
 	public void setNote(String note) {
 		this.note = note;
+	}
+	@Override
+	public String toString() {
+		return "ViewCourse [kid=" + kid + ", anummer=" + anummer + ", aid=" + aid + ", name=" + name + ", abgabetext="
+				+ abgabetext + ", note=" + note + "]";
 	}
 	 
 }

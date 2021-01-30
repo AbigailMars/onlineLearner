@@ -41,15 +41,15 @@ body{
 <body>
 	<div id="wrapper">
 		<div id="header">
-		<h1> OnlineLearner Website </h1>
-		</div>
-	   
-		<div id="site">
+		<h1>Informationen</h1>
+	</div>
+	
+	<div id="site">
 	<#if kurs ??>
       <h3>${kurs.name}</h3></br>
-      <p>Ersteller : ${kurs.ersteller}</P></br>
+      <p>Ersteller : ${kurs.ersteller}</p></br>
       <p>${kurs.beschreibungstext}</P></br>
-       <p>Anz.freier Plaeze : ${kurs.freieplaetze}</P></br>
+       <p>Anz.freier Plaeze : ${kurs.freieplaetze}</p></br>
    </#if>
 	 <button><a <a href ="newEnroll?kid=${kurs.kid}&&name=${kurs.name}">Einschreiben </a></button>
 		</div>

@@ -9,29 +9,46 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import de.unidue.inf.is.Dao.AbgabeDao;
+import de.unidue.inf.is.Dao.EinreichenDao;
 
 public class insertAssignmentServlet extends HttpServlet{
+	
 	 private static final long serialVersionUID = 1L;
-	    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { 	  
+	 
+	    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { 	  
 	    Integer anummer = Integer.parseInt(request.getParameter("anummer"));
+	    Integer kid = Integer.parseInt(request.getParameter("kid"));
 	    String abgabetext = request.getParameter("abgabetext");
+	    
+	    //get aid from AbgabeDao.add(abgabetext)
 	    int aid = 0;
+	    int row = 0;
 	    try {
+	    	//insert to abgabe table
 			aid = AbgabeDao.add(abgabetext);
+			//insert to einreichen table
+			row = EinreichenDao.einreichen(anummer, kid, aid);
+			if(row > 0) {
+				response.sendRedirect("viewCourse?kid="+kid+"&flag="+2);
+			}else {
+				request.setAttribute("message", "Oooooooooops......error ....");
+	            request.getRequestDispatcher("/error.ftl").forward(request, response);
+			}
 		} catch (ServletException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	    	 request.setAttribute("message", "Oooooooooops......error1 ....");
+             request.getRequestDispatcher("/error.ftl").forward(request, response); 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	    	 request.setAttribute("message", "Oooooooooops......error2 ....");
+             request.getRequestDispatcher("/error.ftl").forward(request, response); 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	    	 request.setAttribute("message", "Oooooooooops......error3 ....");
+             request.getRequestDispatcher("/error.ftl").forward(request, response); 
 		}
-	    request.getRequestDispatcher("/view_course2.ftl").forward(request, response);
+	    
+	       
 	 }
 	    
-	    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	    	doPost( request,response );
 	 }
 }

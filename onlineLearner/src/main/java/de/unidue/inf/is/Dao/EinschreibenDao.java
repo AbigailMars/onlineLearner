@@ -14,7 +14,7 @@ public class EinschreibenDao {
 	
    public static Boolean checkEnroll(int kid) throws ServletException, IOException, SQLException {
 	Connection connection = DBUtil.getExternalConnection();
-	String sql = "select kid from dbp057.einschreiben where bnummer = 1 and kid = ?";
+	String sql = "select kid from dbp056.einschreiben where bnummer = 1 and kid = ?";
 	PreparedStatement ps = connection.prepareStatement(sql);
 	ps.setInt(1, kid);
 	ResultSet rs = ps.executeQuery();
@@ -26,13 +26,12 @@ public class EinschreibenDao {
 		return false;
 	}else {
 		return true;
-	}
-	   
+	}	   
    }
    
    public static Boolean checkPlaetze(int kid) throws ServletException, IOException, SQLException{
 	    Connection connection = DBUtil.getExternalConnection();
-		String sql = "select freieplaetze from dbp057.kurs where kid = ?";
+		String sql = "select freieplaetze from dbp056.kurs where kid = ?";
 		PreparedStatement ps = connection.prepareStatement(sql);
 		ps.setInt(1, kid);
 		ResultSet rs = ps.executeQuery();
@@ -47,9 +46,26 @@ public class EinschreibenDao {
 	    }	   
    }
    
+   public static Boolean checkSchluessel(int kid) throws SQLException {
+	    Connection connection = DBUtil.getExternalConnection();
+		String sql = "select einschreibeschluessel from dbp056.kurs where kid = ?";
+		PreparedStatement ps = connection.prepareStatement(sql);
+		ps.setInt(1, kid);
+		ResultSet rs = ps.executeQuery();
+		String einschreibeschluessel = null;
+	    while(rs.next()) {
+	    	einschreibeschluessel = rs.getString(1);
+	    }
+	    if (einschreibeschluessel == null) {
+	    	return false;
+	    }else {
+		return true;
+		}
+   }
+   
    public static String getSchluessel(int kid) throws ServletException, IOException, SQLException{
 	    Connection connection = DBUtil.getExternalConnection();
-		String sql = "select einschreibeschluessel from dbp057.kurs where kid = ?";
+		String sql = "select einschreibeschluessel from dbp056.kurs where kid = ?";
 		PreparedStatement ps = connection.prepareStatement(sql);
 		ps.setInt(1, kid);
 		ResultSet rs = ps.executeQuery();
@@ -58,6 +74,15 @@ public class EinschreibenDao {
 	    	einschreibeschluessel = rs.getString(1);
 	    }
 	    return einschreibeschluessel;
+   }
+   
+   public static int add(int kid) throws SQLException {
+	   Connection connection = DBUtil.getExternalConnection();
+	   String sql = "insert into dbp056.einschreiben(bnummer,kid) values (1,?)";
+	   PreparedStatement ps = connection.prepareStatement(sql);
+	   ps.setInt(1, kid);
+	   int i = ps.executeUpdate();
+	   return i;
    }
 
 }

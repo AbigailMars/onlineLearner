@@ -12,40 +12,32 @@ import javax.servlet.http.HttpServletResponse;
 import de.unidue.inf.is.Dao.KursDao;
 import de.unidue.inf.is.domain.Kurs;
 
-
-
-
 public final class OnlineLearnerServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
-
-
-    @Override
+    @Override  
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	   List<Kurs> kursList = null;
     	   List<Kurs> vkursList = null;
-    	   
-			try {
+    	   			try {
+    	   //find course that has registered
 				kursList = KursDao.findKurs();
+		   //find course that has not registered	
 				vkursList = KursDao.findVerfuegbareKurs();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		
-    		//transfer userlist to index page 
+		//stores attributes in this request
 			request.setAttribute("kursList", kursList);
 			request.setAttribute("vkursList", vkursList);
-//switch to index page
-        request.getRequestDispatcher("/view_main.ftl").forward(request, response);
+            request.getRequestDispatcher("/view_main.ftl").forward(request, response);
     }
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    doGet(request,response);
     
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+           doGet(request,response);    
     }
 
 }

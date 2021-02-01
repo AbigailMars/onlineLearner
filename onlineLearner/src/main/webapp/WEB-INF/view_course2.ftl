@@ -36,30 +36,73 @@ body{
 .centerBlock{
 	margin:0 auto;
 }
+#button{
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 2px 2px;
+  cursor: pointer;
+  background-color: #4CAF50;
+  float:right;
+}
+
+#aufgabe {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#aufgabe td, #aufgabe th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#aufgabe tr:nth-child(even){background-color: #f2f2f2;}
+
+#aufgabe tr:hover {background-color: #ddd;}
+
+#aufgabe th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4CAF50;
+  color: white;
+}
 </style>
 
 <body>
 	<div id="wrapper">
 		<div id="header">
-		<h1> OnlineLearner Website </h1>
+		<h1 align = center> Informationen </h1>
 		</div>
-	   
-		<div id="site">
+	    <div id="site">
 	<#if kurs ??>
-      <h3>${kurs.name}</h3></br>
-      <p>Ersteller : ${kurs.ersteller}</P></br>
-      <p>${kurs.beschreibungstext}</P></br>
-       <p>Anz.freier Plaeze : ${kurs.freieplaetze}</P></br>
-   </#if>
-	 <h3> Liste der Aufgaben</h3>
-	 <table class="datatable">
+      <h2 align = center>${kurs.name}</h2></br>
+      <p><h4 align = center>Ersteller : ${kurs.ersteller}</h4></P></br>
+      <p><h4 align = center>${kurs.beschreibungstext}</h4></P></br>
+       <p><h3 align = center>Anz.freier Plaetze : ${kurs.freieplaetze}</h3></P></br>
+   <button id ="button" onclick="javascript:window.location.href='deleteCourse?kid=${kurs.kid}'">Kurs Loeschen</button>
+     </#if>
+    
+   </br></br>
+   <hr />
+      </br>
+	 <h2 align = center> Liste der Aufgaben</h2>
+	 </br>
+	 <table id="aufgabe">
     <tr>
-        <td>name</td> <td>abgabetext</td><td>note</td>
+        <td>Aufgabe</td> <td>Meine abgabe</td><td>Bewerbungsnote</td>
     </tr>
 	<#if aufgabeList ?? >
     <#list aufgabeList as aufgabe>
     <tr>
-        <td><a href ="newAssignment?anummer=${aufgabe.anummer}">${aufgabe.anummer}${aufgabe.name}</a></td> <td>${aufgabe.abgabetext}</td><td>${aufgabe.note}</td>
+        <td><a href ="newAssignment?anummer=${aufgabe.anummer}&kid=${kurs.kid}">${aufgabe.name}</a></td> 
+        <td>${aufgabe.abgabetext}</td>
+        <td>${aufgabe.note}</td>
     </tr>
    </#list>
    </#if>
@@ -67,7 +110,5 @@ body{
 		</div>
 	</div>
 	
-
-   <button onclick="javascript:window.location.href='hello'">Kurs Loeschen</button>
 </body>
 </html>

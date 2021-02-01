@@ -36,24 +36,47 @@ body{
 .centerBlock{
 	margin:0 auto;
 }
+
+#button{
+  border: none;
+  color: white;
+  padding: 15px 30px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  background-color: #4CAF50;
+  float:right;
+}
+input[type=text],textarea {
+  width: 50%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
 </style>
 
 <body>
 	<div id="wrapper">
 		<div id="header">
-		<h1> OnlineLearner Website </h1>
+		<h1 align = center> onlineLearner</h1>
 		</div>	   
 		<div id="site">
+		</br></br>
         <#if kurs ??>
-        <p> Kurs : ${kurs.name}</p>
+        <p><h3 align = center> Kurs:&nbsp;&nbsp;${kurs.name}</h3></p></br>
         </#if>
 		<#if aufgabe ??>
-		<p>Aufgabe : ${aufgabe.name}</p>
-		<p>Beschreibung : ${aufgabe.beschreibung}</p>
+		<p><h3 align = center> Aufgabe:&nbsp;&nbsp; ${aufgabe.name}</h3></p></br>
+		<p><h3 align = center> Beschreibung:&nbsp;&nbsp; ${aufgabe.beschreibung}</h3></p></br>
 		</#if>
-		<form name="form" action = "insertAssignment?anummer=${aufgabe.anummer}&kid=${kurs.kid}"  method="post">
-        <p> Abgabetext <textarea row="5" cols="30" name ="abgabetext"/></textarea> </p>
-		<input type = "submit" value ="Einreichen"> </input>
+		<form name="form" action = "insertAssignment?anummer=${aufgabe.anummer}&kid=${kurs.kid}"  method="post"></br>
+        <p><h3 align = center>Abgabetext:&nbsp;&nbsp; <textarea row="5" cols="30" name ="abgabetext"/></textarea></h3></p></br>
+		<input id = "button" type = "submit" value ="Einreichen"> </input>
+		</br></br>
 	</form>
 	</div>
 	</div>

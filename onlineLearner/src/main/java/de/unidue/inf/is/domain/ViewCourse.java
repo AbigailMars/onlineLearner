@@ -1,7 +1,5 @@
 package de.unidue.inf.is.domain;
 
-import java.sql.Clob;
-
 public class ViewCourse {
 	 private Integer kid;
 	 private Integer anummer;

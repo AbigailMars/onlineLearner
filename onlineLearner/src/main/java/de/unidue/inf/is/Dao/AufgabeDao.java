@@ -15,13 +15,14 @@ import de.unidue.inf.is.utils.DBUtil;
 public class AufgabeDao {
     public static Aufgabe getAufgabeByid(int anummer) throws SQLException, IOException {
     	Connection connection = DBUtil.getExternalConnection();
-    	String sql = "select name,beschreibung,kid from dbp057.aufgabe where anummer = ?";
+    	String sql = "select name,beschreibung,kid from dbp056.aufgabe where anummer = ?";
     	PreparedStatement ps = connection.prepareStatement(sql);
     	ps.setInt(1,anummer);
     	ResultSet rs = ps.executeQuery();
     	Aufgabe aufgabe = new Aufgabe();
     	while(rs.next()) {
     		aufgabe.setName(rs.getString(1));
+    		//transfer clob to string
     		Clob clob = rs.getClob(2);
     		String beschreibung = "";
             Reader is = clob.getCharacterStream();
@@ -34,6 +35,7 @@ public class AufgabeDao {
             }
             beschreibung = sb.toString();
     		aufgabe.setBeschreibung(beschreibung);
+    		
     		aufgabe.setAnummer(anummer);
     		aufgabe.setKid(rs.getInt(3));
     	}

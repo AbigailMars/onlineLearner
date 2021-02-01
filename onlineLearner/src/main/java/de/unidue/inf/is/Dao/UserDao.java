@@ -40,7 +40,7 @@ public class UserDao {
 		
 		//create statement
 		Statement st = connection.createStatement();
-		ResultSet rs = st.executeQuery("select * from dbp057.BENUTZER");
+		ResultSet rs = st.executeQuery("select * from dbp056.BENUTZER");
 		List<User> userList = new ArrayList<>();
 		while(rs.next()) {
 			User user = new User();

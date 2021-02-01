@@ -18,48 +18,47 @@ public final class  newAssignmentServlet extends HttpServlet {
 	 private static final long serialVersionUID = 1L;
 	 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{ 	  
-	    String strAnummer =  request.getParameter("anummer");
-	    Integer anummer = 0;
-	    if(strAnummer != null) {
-		anummer = Integer.parseInt(request.getParameter("anummer"));
-		}
+	    int anummer =  Integer.parseInt(request.getParameter("anummer"));
+	    int kid = Integer.parseInt(request.getParameter("kid"));
+	    
+	    //check if the task was submitted before
 	    Boolean submitted = true;
 		try {
-			submitted = EinreichenDao.submitted(anummer);
+			submitted = EinreichenDao.submitted(kid,anummer);
 		} catch (ServletException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 	    Kurs kurs = new Kurs();
 	    Aufgabe aufgabe = new Aufgabe();
-	    Integer kid = 0;
-	    if(submitted == false) {
-	    	try {				
-	    		aufgabe = AufgabeDao.getAufgabeByid(anummer);
-				kid = aufgabe.getKid();
-				kurs = KursDao.getKursById(kid);
-
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+	    if(submitted == false) {			
+	    		try {
+	    			// get aufgabe info
+					aufgabe = AufgabeDao.getAufgabeByid(anummer);
+					//get kurs info
+					kurs = KursDao.getKursById(kid);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}							
 	    request.setAttribute("kurs", kurs);
 	    request.setAttribute("aufgabe", aufgabe);
 		request.getRequestDispatcher("/new_assignment.ftl").forward(request, response);
+		
 	    }else {
-	    request.getRequestDispatcher("/view_course2.ftl").forward(request, response);	
+	    	//if it was submitted before, go to error page
+	    	request.setAttribute("message", "Mehrfache Abgaben eines Benutzers für eine Kurs-Aufgabe sind nicht möglich.");
+   	    	request.getRequestDispatcher("/error.ftl").forward(request, response);
 	    }
 	 }
 	    
-	    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	    	doPost( request,response );
-	    	    }
+	 protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	    doPost( request,response );
+	  }
+	 
 }

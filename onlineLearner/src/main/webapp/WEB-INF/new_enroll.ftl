@@ -36,24 +36,45 @@ body{
 .centerBlock{
 	margin:0 auto;
 }
+
+input[type=text] {
+  width: 50%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+#button{
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  background-color: #4CAF50;
+  float:right;
+}
 </style>
 
 <body>
 	<div id="wrapper">
 		<div id="header">
-		<h1> OnlineLearner Website </h1>
-		</div>
-	   
-		<div id="site">
 		<#if kurs ??>
-		<p>
-			${kurs.name}
-		</p>
+		<h1 align = center>${kurs.name}</h1>
 		</#if>
+		</div>	
+		   
+		<div id="site">
+		
 			<form name="form" action = "insertEnroll?kid=${kurs.kid}" method="post">
-		<p> Einschreibeschluessel <input type = "text" name = "einschreibeschluessel"> </input> </p>        
-		  <input type = "submit" value ="Erstellen"> </input>
+		<p><h4 align = center> Einschreibeschluessel <input type = "text" name = "einschreibeschluessel"> </input></h4> </p>        
+		  <input id="button" type = "submit" value ="Einschreiben"> </input>
 	</form>
+	</br></br>
 	</div>
 	</div>
 

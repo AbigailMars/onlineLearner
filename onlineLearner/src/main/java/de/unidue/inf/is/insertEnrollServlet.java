@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import de.unidue.inf.is.Dao.EinschreibenDao;
 import de.unidue.inf.is.Dao.KursDao;
 import de.unidue.inf.is.Dao.ViewCourseDao;
 import de.unidue.inf.is.domain.Kurs;
@@ -23,47 +24,44 @@ public final class insertEnrollServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
     public void doPost(HttpServletRequest request,HttpServletResponse response) throws ServletException,IOException{
- 
     String einschreibeschluessel = request.getParameter("einschreibeschluessel");
     int kid = Integer.parseInt(request.getParameter("kid"));
-    Connection connection = null;
-    PreparedStatement ps = null;
+    //get the right schluesel by method call
     String schluessel = null;
-    ResultSet rs = null;
 	try {
-		connection = DBUtil.getExternalConnection();
-		String sql = "select einschreibeschluessel from dbp057.kurs where kid = ?";
-	    ps = connection.prepareStatement(sql);
-	    ps.setInt(1, kid);
-	    rs = ps.executeQuery();
-	    while (rs.next()){
-		schluessel = rs.getString(1);
-	     }
-	} catch (SQLException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
+		schluessel = EinschreibenDao.getSchluessel(kid);
+	} catch (ServletException e1) {
+		request.setAttribute("message", "Oooooooooops......error ....");
+        request.getRequestDispatcher("/error.ftl").forward(request, response);
+	} catch (IOException e1) {
+		request.setAttribute("message", "Oooooooooops......error ....");
+        request.getRequestDispatcher("/error.ftl").forward(request, response);
+	} catch (SQLException e1) {
+		request.setAttribute("message", "Oooooooooops......error ....");
+        request.getRequestDispatcher("/error.ftl").forward(request, response);
 	}
-	String sql2 = null;
-	PreparedStatement ps2 = null;
-		if(einschreibeschluessel.equals(schluessel)  ){
-			sql2 = "insert into dbp057.einschreiben(bnummer,kid) values (1,?)";
-			Kurs kurs = new Kurs();
-			List<ViewCourse> aufgabeList = null;
-			try {
-				ps2 = connection.prepareStatement(sql2);
-				ps2.setInt(1, kid);
-				ps2.executeUpdate();
-			    kurs = KursDao.getKursById(kid);
-			    aufgabeList = ViewCourseDao.findAufgabe(kid);
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		request.setAttribute("aufgabeList", aufgabeList);
-	    request.setAttribute("kurs", kurs);
-		request.getRequestDispatcher("/insert_enroll.ftl").forward(request, response);
+	int ifInserted = 0;	
+	if(einschreibeschluessel.equals(schluessel)  ){
+	   try {
+		  //enroll the user to this course
+		 ifInserted = EinschreibenDao.add(kid);
+		 //update the place
+		 KursDao.Update(kid);
+	         } catch (SQLException e) {
+	             request.setAttribute("message", "Oooooooooops......error ....");
+	             request.getRequestDispatcher("/error.ftl").forward(request, response);
+	        }
+	   
+	     if(ifInserted > 0) {
+	    	 response.sendRedirect("viewCourse?kid="+kid+"&flag="+2);
+	     }else {
+	    	 request.setAttribute("message", "Oooooooooops......error ....");
+             request.getRequestDispatcher("/error.ftl").forward(request, response); 
+	     }
+	     
 	}else {
-		request.getRequestDispatcher("/view_main.ftl").forward(request, response);
+		request.setAttribute("message", "Einschreibeschluessel ist falsh");
+		request.getRequestDispatcher("/error.ftl").forward(request, response);
 	}
 }
     

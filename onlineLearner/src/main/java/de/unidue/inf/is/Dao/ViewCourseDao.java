@@ -17,8 +17,10 @@ import de.unidue.inf.is.utils.DBUtil;
 public class ViewCourseDao {
 	public static List<ViewCourse> findAufgabe(int kid) throws SQLException,IOException {
 		Connection connection = DBUtil.getExternalConnection();
-		String sql = "select t1.anummer,t1.aid,t2.name,t3.abgabetext,t4.note from dbp057.einreichen t1,dbp057.aufgabe t2,dbp057.abgabe t3,(select aid,avg(note) as note from dbp057.bewerten group by aid ) as t4 where t1.kid = ? and t1.bnummer = 1 and t1.anummer = t2.anummer and t1.aid = t3.aid and t1.aid = t4.aid\n" + 
-				"";
+		String sql = "select t1.anummer,t1.aid,t1.name,t2.abgabetext,t2.note from (select t1.anummer,t1.name,t2.aid from dbp056.aufgabe t1 "
+				+ "Left Join (select * from dbp056.einreichen where bnummer =1) as t2 on t1.anummer = t2.anummer where t1.kid = ?) as t1 Left Join "
+				+ "(select t1.aid,t1.abgabetext,t2.note from dbp056.abgabe t1 Left Join(select aid,avg(note) "
+				+ "as note from dbp056.bewerten group by aid )as t2 on t1.aid = t2.aid) as t2 on t1.aid = t2.aid order by t1.anummer";
 		PreparedStatement st = connection.prepareStatement(sql);
 		st.setInt(1, kid); 
 		ResultSet rs = st.executeQuery();
@@ -30,9 +32,14 @@ public class ViewCourseDao {
             aufgabe.setAnummer(rs.getInt(1));
             aufgabe.setAid(rs.getInt(2));
             aufgabe.setName(rs.getString(3));
-            
             Clob clob = rs.getClob(4);
             int note = rs.getInt(5);
+           
+            if(clob == null) {
+            	aufgabe.setAbgabetext("keine Abgabe");
+            	aufgabe.setNote("Noch keine Bewerbung");
+              }else {
+            //transfer clob to string         
             String abgabetext = "";
             Reader is = clob.getCharacterStream();
             BufferedReader br = new BufferedReader(is);
@@ -43,10 +50,6 @@ public class ViewCourseDao {
             	s= br.readLine();
             }
             abgabetext = sb.toString();
-             if(abgabetext == null) {
-            	aufgabe.setAbgabetext("keine Abgabe");
-            	aufgabe.setNote(null);
-              }else {
             aufgabe.setAbgabetext(abgabetext);
             
             String strnote = String.valueOf(note);
@@ -57,9 +60,8 @@ public class ViewCourseDao {
                }
               }
             aufgabeList.add(aufgabe);
-            }
+         }
 			return aufgabeList;	
-		}
-			
-	}
+	}			
+}
 

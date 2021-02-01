@@ -36,37 +36,75 @@ body{
 .centerBlock{
 	margin:0 auto;
 }
+
+#button{
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  background-color: #4CAF50;
+  float:right;
+}
+
+input[type=text], select, textarea {
+  width: 50%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+input[type=number] {
+  width: 5%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
 </style>
 
 <body>
 	<div id="wrapper">
 		<div id="header">
-		<h1> OnlineLearner Website </h1>
+		<h1 align = center> onlineLearner </h1>
 		</div>
 	   
 		<div id="site">
-		<p>
-			Kurs erstellen 
+		<p id="title">
+			<h1>Kurs erstellen </h1><br>
 		</p>
-			<form name="form" action = "insertKurs" onsubmit = "return beforeSubmit(this);" method="post">
-		<p> Name <input type = "text" name = "name"> </input> </p>
-		<p> Einschreibeschluessel <input type = "text" name = "einschreibeschluessel"> </input> </p>
-        <p> Anz.freier Plaeze <input type = "text " name = "plaeze" min = "1" max = "100"> </input> </p>
-        <p> Beschreibungstext <textarea row="5" cols="30" name ="beschreibungstext"/></textarea> </p>
-		<input type = "submit" value ="Erstellen"> </input>
+		<form name="form" action = "insertKurs" onsubmit = "return beforeSubmit(this);" method="post">
+		<p> Name <input type = "text" name = "name"> </input></h4> </p></br>
+		<p> Einschreibeschluessel  <input type = "text" name = "einschreibeschluessel"> </input> </p></br>
+        <p> Anz.freier Plaetze  <input type = "number" name = "plaeze" min = "1" max = "100"> </input> </p></br>
+        <p> Beschreibungstext  <textarea style="height:100px" name ="beschreibungstext"/></textarea> </p></br>
+		<div><input id="button" type = "submit" value ="Erstellen"> </input></div>
 	</form>
+	  </br></br></br>	
 	</div>
 	</div>
+	
 <script type="text/javascript">
+
 function beforeSubmit(form){
 if(form.name.value==''){
 alert('die Länge des eingegeben Namen leer ist');
 form.name.focus();
 return false;
 }
-
+if(form.name.value.length > 50){
+alert('die Länge des eingegeben Namen 50 überschreitet');
+form.name.focus();
+return false;
+}
 return true;
 }
+
 </script>
 	
 </body>

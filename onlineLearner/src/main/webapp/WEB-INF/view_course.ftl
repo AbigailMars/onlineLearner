@@ -36,22 +36,41 @@ body{
 .centerBlock{
 	margin:0 auto;
 }
+#button{
+  border: none;
+  float:right;
+  font-size: 16px;
+}
+a:link, a:visited {
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+}
+
+a:hover, a:active {
+  background-color: #4CAF50;
+}
+
 </style>
 
 <body>
 	<div id="wrapper">
 		<div id="header">
-		<h1> OnlineLearner Website </h1>
+		<h1 align = center> Informationen </h1>
 		</div>
-	   
-		<div id="site">
+	    <div id="site">
 	<#if kurs ??>
-      <h3>${kurs.name}</h3></br>
-      <p>Ersteller : ${kurs.ersteller}</P></br>
-      <p>${kurs.beschreibungstext}</P></br>
-       <p>Anz.freier Plaeze : ${kurs.freieplaetze}</P></br>
+      <h2 align = center>${kurs.name}</h2></br>
+      <p><h4 align = center>Ersteller : ${kurs.ersteller}</h4></P></br>
+      <p><h4 align = center>${kurs.beschreibungstext}</h4></P></br>
+       <p><h3 align = center>Anz.freier Plaetze : ${kurs.freieplaetze}</h3></P></br>
    </#if>
-	 <button><a <a href ="newEnroll?kid=${kurs.kid}&&name=${kurs.name}">Einschreiben </a></button>
+	 <button id ="button"><a href="newEnroll?kid=${kurs.kid}">Einschreiben</a></button>
+		</br></br>
+		
 		</div>
 	</div>
 	

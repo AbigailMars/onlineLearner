@@ -28,30 +28,28 @@ public final class ViewCourseServlet extends HttpServlet {
  		  flag = Integer.parseInt(strFlag);
  	  }
  	  Kurs kurs = null;
-	try {
+      try {
 		kurs = KursDao.getKursById(kid);
 	} catch (SQLException e) {
-		// TODO Auto-generated catch block
 		e.printStackTrace();
 	} catch (IOException e) {
-		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
- 	  request.setAttribute("kurs", kurs);
+	  request.setAttribute("kurs", kurs);
  	  
  	  if(flag == 1) {
  	  request.getRequestDispatcher("/view_course.ftl").forward(request, response);
  	  }else if(flag == 2) {
  		  List<ViewCourse> aufgabeList = null;
- 		  try {
-			aufgabeList = ViewCourseDao.findAufgabe(kid);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+ 		
+			try {
+				aufgabeList = ViewCourseDao.findAufgabe(kid);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		
  		 request.setAttribute("aufgabeList", aufgabeList);
  		 request.getRequestDispatcher("/view_course2.ftl").forward(request, response);
  	  }

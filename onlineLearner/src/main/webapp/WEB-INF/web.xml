@@ -99,8 +99,18 @@
 	</servlet-mapping>	
 	
 		<servlet>
+		<servlet-name>deleteCourse_servlet</servlet-name>
+		<servlet-class>de.unidue.inf.is.DeleteCourseServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>deleteCourse_servlet</servlet-name>
+		<url-pattern>/deleteCourse</url-pattern>
+	</servlet-mapping>	
+
+		<servlet>
 		<servlet-name>newEnroll_servlet</servlet-name>
-		<servlet-class>de.unidue.inf.is.newEnrollServlet</servlet-class>
+		<servlet-class>de.unidue.inf.is.NewEnrollServlet</servlet-class>
 	</servlet>
 
 	<servlet-mapping>

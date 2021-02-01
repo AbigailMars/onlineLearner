@@ -16,57 +16,57 @@ import de.unidue.inf.is.domain.Kurs;
 import de.unidue.inf.is.domain.ViewCourse;
 
 
-public final class newEnrollServlet extends HttpServlet {
+public final class NewEnrollServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	int kid = Integer.parseInt(request.getParameter("kid"));
-    	String name = request.getParameter("name");
     	Boolean enrolled  = false;
     	Boolean plaetze = false;
-    	String einschreibeschluessel = null;
+    	Boolean einschreibeschluessel = false;
     	Kurs kurs = new Kurs();
    	    try {
+   	    	//check whether it was enrolled : no -> false ; yes -> true
 		    enrolled  = EinschreibenDao.checkEnroll(kid);
+		    //check whether there is enough place : no -> false ; yes->true
 		    plaetze = EinschreibenDao.checkPlaetze(kid);
-		    einschreibeschluessel = EinschreibenDao.getSchluessel(kid);
-		    kurs.setName(name);
-		    kurs.setKid(kid);
+		    //get schluessel by method call
+		    einschreibeschluessel = EinschreibenDao.checkSchluessel(kid);
+		    //get course name by method call
+		    kurs = KursDao.getKursById(kid);
 		} catch (ServletException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			request.setAttribute("message", "Oooooooooops......error ....");
+            request.getRequestDispatcher("/error.ftl").forward(request, response); 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			request.setAttribute("message", "Oooooooooops......error ....");
+            request.getRequestDispatcher("/error.ftl").forward(request, response); 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			request.setAttribute("message", "Oooooooooops......error ....");
+            request.getRequestDispatcher("/error.ftl").forward(request, response); 
 		}
    	  
-   	    if(enrolled == false && plaetze == true && einschreibeschluessel != null) {
+   	    if(enrolled == false && plaetze == true && einschreibeschluessel == true) {
    	    	request.setAttribute("kurs", kurs);
    	    	request.getRequestDispatcher("/new_enroll.ftl").forward(request, response);
-   	    } else if (enrolled == false && plaetze == true && einschreibeschluessel == null) {
-   	    	Kurs kurs1 = null;
-   	    	List<ViewCourse> aufgabeList = null;
+   	    } else if (enrolled == false && plaetze == true && einschreibeschluessel == false) {
+   	    	int ifInserted = 0;
    	    	try {
-			    kurs1 = KursDao.getKursById(kid);
-			    aufgabeList = ViewCourseDao.findAufgabe(kid);
+   	    		ifInserted = EinschreibenDao.add(kid);
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				request.setAttribute("message", "Oooooooooops......error ....");
+	            request.getRequestDispatcher("/error.ftl").forward(request, response);
 			}
-   	    	request.setAttribute("kurs", kurs1);
-   	    	request.setAttribute("aufgabeList", aufgabeList);
-   	    	request.getRequestDispatcher("/insert_enroll.ftl").forward(request, response);
+   	        response.sendRedirect("viewCourse?kid="+kid+"&flag="+2);
+   	    }else if(enrolled == true){
+   	    	request.setAttribute("message", "Mehrfache Einschreibungen eines Kurses sind nicht möglich");
+   	    	request.getRequestDispatcher("/error.ftl").forward(request, response);
+   	    }else if(plaetze == false) {
+   	    	request.setAttribute("message", "Voll registriert");
+   	    	request.getRequestDispatcher("/error.ftl").forward(request, response);
    	    }
  }
     
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	doPost( request,response );
     	    }
-
 }

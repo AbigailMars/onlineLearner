@@ -15,7 +15,7 @@ public class AbgabeDao {
 	
     public static int add(String abgabetext) throws ServletException, IOException, SQLException{
     	Connection connection = DBUtil.getExternalConnection();
-    	String sql = "insert into dbp057.abgabe(abgabetext) values(?)";
+    	String sql = "insert into dbp056.abgabe(abgabetext) values(?)";
     	PreparedStatement ps = connection.prepareStatement(sql);
     	Clob clob = new javax.sql.rowset.serial.SerialClob(abgabetext.toCharArray());
     	ps.setClob(1, clob);

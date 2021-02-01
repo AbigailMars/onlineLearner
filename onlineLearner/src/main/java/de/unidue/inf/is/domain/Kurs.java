@@ -17,11 +17,6 @@ public final class Kurs  {
     
     public Kurs() {
     }
-    public Kurs(String name,Integer freieplaetze,String ersteller ) {
-    	this.name = name;
-    	this.freieplaetze = freieplaetze;
-    	this.ersteller = ersteller;
-    }
     
     public Kurs(Integer kid,String name, String beschreibungstext,String einschreibeschluessel,Integer freieplaetze,String ersteller) {
     	this.setKid(kid);
